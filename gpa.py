@@ -11,8 +11,15 @@ if not firebase_admin._apps:
     try:
         # Try to get from Streamlit secrets (for deployment)
         cred_json = st.secrets["FIREBASE_SERVICE_ACCOUNT"]
+        # Clean the JSON string (remove any BOM or extra whitespace)
+        cred_json = cred_json.strip()
+        if cred_json.startswith('\ufeff'):  # Remove BOM if present
+            cred_json = cred_json[1:]
         cred_dict = json.loads(cred_json)
         cred = credentials.Certificate(cred_dict)
+    except json.JSONDecodeError as e:
+        st.error(f"Invalid Firebase JSON in secrets. Error: {str(e)}. Please check the JSON format in Streamlit secrets.")
+        st.stop()
     except (KeyError, FileNotFoundError):
         # Fallback for local development: use serviceAccountKey.json
         if os.path.exists("serviceAccountKey.json"):
