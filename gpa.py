@@ -1,31 +1,22 @@
-import json
-import os
-from datetime import datetime
-
-import streamlit as st
-import firebase_admin
-from firebase_admin import credentials, firestore
+import base64
 
 # Initialize Firebase (only once)
 if not firebase_admin._apps:
     try:
-        # Try to get from Streamlit secrets (for deployment)
-        cred_json = st.secrets["FIREBASE_SERVICE_ACCOUNT"]
-        # Clean the JSON string (remove any BOM or extra whitespace)
-        cred_json = cred_json.strip()
-        if cred_json.startswith('\ufeff'):  # Remove BOM if present
-            cred_json = cred_json[1:]
+        # Try to get from Streamlit secrets (base64 encoded JSON)
+        cred_b64 = st.secrets["FIREBASE_SERVICE_ACCOUNT_B64"]
+        cred_json = base64.b64decode(cred_b64).decode('utf-8')
         cred_dict = json.loads(cred_json)
         cred = credentials.Certificate(cred_dict)
     except json.JSONDecodeError as e:
-        st.error(f"Invalid Firebase JSON in secrets. Error: {str(e)}. Please check the JSON format in Streamlit secrets.")
+        st.error(f"Invalid Firebase JSON in secrets. Error: {str(e)}. Please check the base64 encoded JSON.")
         st.stop()
     except (KeyError, FileNotFoundError):
         # Fallback for local development: use serviceAccountKey.json
         if os.path.exists("serviceAccountKey.json"):
             cred = credentials.Certificate("serviceAccountKey.json")
         else:
-            st.error("Firebase credentials not found. Please add serviceAccountKey.json for local development or set FIREBASE_SERVICE_ACCOUNT in secrets.")
+            st.error("Firebase credentials not found. Please add serviceAccountKey.json for local development or set FIREBASE_SERVICE_ACCOUNT_B64 in secrets.")
             st.stop()
     firebase_admin.initialize_app(cred)
 

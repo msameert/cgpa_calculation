@@ -26,11 +26,22 @@ A Streamlit app to calculate your 2nd semester GPA and overall CGPA, with shared
 1. Go to [Streamlit Cloud](https://share.streamlit.io/)
 2. Connect your GitHub repo (push this code to GitHub first)
 3. In Streamlit Cloud, go to your app settings
-4. Add the Firebase service account JSON as a secret:
-   - Key: `FIREBASE_SERVICE_ACCOUNT`
-   - Value: The entire JSON content from your service account key file
+4. Add the Firebase service account JSON as a base64-encoded secret:
+   - Key: `FIREBASE_SERVICE_ACCOUNT_B64`
+   - Value: Base64 encoded JSON (see step 3 below)
 
-### 3. Local Development
+### 3. Add Firebase Secret (Base64 Encoded)
+
+1. Open your Firebase service account JSON file
+2. Copy the entire JSON content
+3. Base64 encode it:
+   - **Online**: Use [base64encode.org](https://www.base64encode.org/)
+   - **PowerShell**: `[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes((Get-Content 'ServiceAccountKey.json' -Raw)))`
+4. In Streamlit Cloud → App Settings → Secrets, add:
+   ```
+   FIREBASE_SERVICE_ACCOUNT_B64 = "PASTE_THE_BASE64_STRING_HERE"
+   ```
+5. Click **"Save"** → App redeploys automatically
 
 1. Install dependencies:
    ```bash
