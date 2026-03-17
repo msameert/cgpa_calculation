@@ -1,7 +1,10 @@
 import base64
 
 # Initialize Firebase (only once)
-if not firebase_admin._apps:
+try:
+    firebase_admin.get_app()  # Check if already initialized
+except ValueError:
+    # Not initialized, so initialize
     try:
         # Try to get from Streamlit secrets (base64 encoded JSON)
         cred_b64 = st.secrets["FIREBASE_SERVICE_ACCOUNT_B64"]
