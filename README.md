@@ -88,3 +88,5 @@ A Streamlit app to calculate your 2nd semester GPA and overall CGPA, with shared
 - 54-57: D+ (1.33)
 - 50-53: D (1.00)
 - <50: F (0.00)
+
+link : https://cgpacalculation.streamlit.app
