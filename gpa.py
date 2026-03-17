@@ -1,8 +1,15 @@
 import base64
+import json
+import os
+from datetime import datetime
+
+import streamlit as st
+import firebase_admin
+from firebase_admin import credentials, firestore, get_app
 
 # Initialize Firebase (only once)
 try:
-    firebase_admin.get_app()  # Check if already initialized
+    get_app()  # Check if already initialized
 except ValueError:
     # Not initialized, so initialize
     try:
