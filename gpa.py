@@ -10,7 +10,8 @@ from firebase_admin import credentials, firestore
 if not firebase_admin._apps:
     try:
         # Try to get from Streamlit secrets (for deployment)
-        cred_dict = st.secrets["FIREBASE_SERVICE_ACCOUNT"]
+        cred_json = st.secrets["FIREBASE_SERVICE_ACCOUNT"]
+        cred_dict = json.loads(cred_json)
         cred = credentials.Certificate(cred_dict)
     except (KeyError, FileNotFoundError):
         # Fallback for local development: use serviceAccountKey.json
