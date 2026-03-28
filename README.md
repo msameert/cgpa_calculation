@@ -54,6 +54,11 @@ A Streamlit app to calculate your 2nd semester GPA and overall CGPA, with shared
    ```bash
    streamlit run gpa.py
    ```
+### 4. Added Docker Containerization 
+
+1. Added Dockerfile and .dockerignore
+2. Ran the commands - had issues
+3. Containerized - now i can share it via containers.
 
 ## Free Tier Limits
 
