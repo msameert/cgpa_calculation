@@ -1,6 +1,6 @@
 # 2nd Semester CGPA Calculator
 
-A Streamlit app to calculate your 2nd semester GPA and overall CGPA, with shared history storage.
+A Streamlit app to calculate 2nd semester GPA and overall CGPA, with shared history storage. Uni wasn't updating the GPA and CGPA, so i built my own calculator and shared it with my friends so i can have their data as well without letting them know ;) 
 
 ## Features
 
